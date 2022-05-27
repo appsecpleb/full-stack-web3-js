@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
-// Solidity can be deployed to any EVM compatible blockchain
-// e.g. Avalanche, Fantom, Polygon
-
 contract SimpleStorage {
-    // Initialized as 0, storage variable by default
-    uint favoriteNumber;
+    uint favoriteNumber; // = 0; internal by default - storage variable
 
     mapping(string => uint256) public nameToFavoriteNumber;
 
@@ -15,9 +11,9 @@ contract SimpleStorage {
         string name;
     }
 
-    People[] public people; // Dynamic array (any size)
+    People[] public people; // dynamic array (any size)
 
-    function store(uint256 _favoriteNumber) public {
+    function store(uint256 _favoriteNumber) public virtual { // virtual = function can be overridden
         favoriteNumber = _favoriteNumber;
     }
 
@@ -29,8 +25,8 @@ contract SimpleStorage {
         return (1 + 1);
     }
 
-    // calldata (can't be modifed), memory (can be modified) variables only exist temporarily
-    // storage variables exist even outside of function execution
+    // calldata (can't be modifed), memory (can be modified) mean vars only exist temporarily
+    // storage variables exist even outside the function execution
     // data location must be declared for arrays, structs, and mappings
     function addPerson(string calldata _name, uint256 _favoriteNumber) public {
         people.push(People(_favoriteNumber, _name));
@@ -38,7 +34,7 @@ contract SimpleStorage {
     }
 }
 
-// Contracts have addresses: 0xd9145CCE52D386f254917e481eB44e9943F39138
+// Contract address: 0xd9145CCE52D386f254917e481eB44e9943F39138
 
 // view, pure functions don't cost gas to run (view are read only, pure can't be read)
 // unless being called INSIDE a function that costs gas
